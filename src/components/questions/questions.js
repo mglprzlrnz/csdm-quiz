@@ -1,5 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import {localStorageService, popupService} from '../../services';
+import { ReactComponent as SuccessIcon } from '../../images/success_icon.svg';
+import { ReactComponent as FailIcon } from '../../images/fail_icon.svg';
 import './questions.css';
 
 const CHANGE_LEVEL_QUESTION = 4
@@ -25,6 +27,10 @@ export class Questions extends Component {
   }
 
   componentWillMount() {
+    const currentUserScore = localStorageService.get('currentUserScore') 
+    if (currentUserScore) {
+      this.goToResults()
+    }
     const currentStatus = localStorageService.get('currentStatus');
     if (currentStatus) {
       const {currentUser, questionNumber, typeOfQuestion, countries, country, optionA, optionB, optionC, optionD} = currentStatus
@@ -136,6 +142,11 @@ export class Questions extends Component {
   }
 
   openPopup(status) {
+    const currentUserScore = {
+      user: this.state.currentUser,
+      score: (this.state.questionNumber-1)
+    }
+    localStorageService.set ('currentUserScore', currentUserScore)
     let message = ''
     let nextStep = ''
     let score = ''
@@ -152,10 +163,12 @@ export class Questions extends Component {
       button = 'NEXT'
       onAccept = () => this.incorrectAnswer()
     }
+    const img = status ? <SuccessIcon className="popup__img"/> : <FailIcon className="popup__img"/>
     popupService.open(
       <Fragment>
         <h1>{message}</h1>
         <h2>{score}</h2>
+        {img}
         <h3>{nextStep}</h3>
         <button className="popup__button" onClick={onAccept}>{button}</button>
       </Fragment>
@@ -179,12 +192,8 @@ export class Questions extends Component {
   updateResults() {
     const scores = localStorageService.get('ranking') || [];
     localStorage.ranking && localStorageService.remove('ranking')
-    const currentUserScore = {
-      user: this.state.currentUser,
-      score: (this.state.questionNumber-1)
-    }
+    const currentUserScore = localStorageService.get('currentUserScore') 
     scores.push(currentUserScore);
-    localStorageService.set ('currentUserScore', currentUserScore)
     localStorageService.set('ranking', scores)
   }
 

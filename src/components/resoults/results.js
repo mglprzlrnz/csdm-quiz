@@ -30,10 +30,10 @@ export class Results extends Component {
   }
   renderScores() {
     return this.state.topScorers.map((score, index) => {
-      return (<div>
+      return (<div className="results__score">
           <div>{`${index + 1}.`}</div>
-          <div>{score.user}</div>
-          <div>{`${score.score} points`}</div>
+          <div>{score.user.toUpperCase()}</div>
+          <div>{`${score.score} POINTS`}</div>
         </div>
       );
     })
@@ -54,10 +54,10 @@ export class Results extends Component {
 
   render() {
     return (
-      <div className="Results">
+      <div className="results">
         <h1>TOP {TOP_RANKING} SCORE CARD</h1>
         {this.renderScores()}
-        <button onClick={() => this.goToHome()}>Play Again</button>
+        <button onClick={() => this.goToHome()}>PLAY AGAIN</button>
       </div>
     );
   }

@@ -64,7 +64,7 @@ export class Home extends Component {
               type="text"
               onChange={(ev) => this.updateName(ev)}
               ></input>
-            <button className="home__form__item" disabled={isButtonDisabled} onClick={() => this.goToQuestions()}>Start the quiz</button>
+            <button className="home__form__item" disabled={isButtonDisabled} onClick={() => this.goToQuestions()}>START THE QUIZ</button>
           </form>
       </div>
     );

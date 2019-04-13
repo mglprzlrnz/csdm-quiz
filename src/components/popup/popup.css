@@ -31,4 +31,37 @@
 .popup__button {
   font-size: 20px;
   font-weight: bold;
+  padding: 3px;
+}
+
+.popup__img {
+  width: 80px;
+  height: 80px;
+}
+
+h1 {
+  margin-top: 0;
+}
+
+@media screen and (max-width: 700px) {
+  .popup {
+    top: 0%;
+    left: 0%;
+    right: 0%;
+    bottom: 0%;
+  }
+  h1 {
+    font-size: 24px;
+  }
+  h2 {
+    font-size: 20px;
+  }
+  h3 {
+    font-size: 16px
+  }
+  .popup__img {
+    width: 40px;
+    height: 40px;
+  }
+  
 }
