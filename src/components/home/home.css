@@ -1,0 +1,23 @@
+.home__img {
+  width: 60%;
+}
+
+.home__form {
+  display: flex;
+  flex-direction: column;
+  width: 65%;
+  margin: auto;
+}
+
+.home__form__item {
+  margin-bottom: 3px;
+  font-size: 14px;
+}
+
+button:disabled,
+button[disabled]{
+  border: 1px solid #999999;
+  background-color: #cccccc;
+  color: #666666;
+  cursor: not-allowed;
+}
