@@ -30,7 +30,7 @@ export class Results extends Component {
   }
   renderScores() {
     return this.state.topScorers.map((score, index) => {
-      return (<div className="results__score">
+      return (<div className="results__score" key={index}>
           <div>{`${index + 1}.`}</div>
           <div>{score.user.toUpperCase()}</div>
           <div>{`${score.score} POINTS`}</div>
