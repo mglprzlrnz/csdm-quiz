@@ -23,13 +23,13 @@ export class Questions extends Component {
       optionC: '',
       optionD: '',
       disabledButtons: false,
-    }
+    };
   }
 
   componentWillMount() {
-    const currentUserScore = localStorageService.get('currentUserScore') 
+    const currentUserScore = localStorageService.get('currentUserScore');
     if (currentUserScore) {
-      this.goToResults()
+      this.goToResults();
     }
     const currentStatus = localStorageService.get('currentStatus');
     if (currentStatus) {
@@ -44,7 +44,7 @@ export class Questions extends Component {
         optionB: optionB,
         optionC: optionC,
         optionD: optionD
-        })
+        });
     } else {
       this.setState({countries: localStorageService.get('countries'), currentUser: localStorageService.get('currentUser')}, () => this.getRandomCountry());
     }
@@ -56,22 +56,22 @@ export class Questions extends Component {
 
   getRandomCountry() {
     const {countries} = this.state;
-    const randomCountry = countries[Math.floor(Math.random() * countries.length)]
+    const randomCountry = countries[Math.floor(Math.random() * countries.length)];
     const selecetedCountry = {
       name: randomCountry.name,
       code: randomCountry.code,
       phone: randomCountry.phone
-    }
+    };
     this.setState({country: selecetedCountry}, () => this.setQuestion());
   }
   
   setQuestion() {
     this.removeFromCountries()
     if (this.state.questionNumber > CHANGE_LEVEL_QUESTION) {
-      const type = Math.random() > 0.5 ? 'code' : 'phone'
-      this.setState({typeOfQuestion: type}, this.getDifferentOptions(type))
+      const type = Math.random() > 0.5 ? 'code' : 'phone';
+      this.setState({typeOfQuestion: type}, this.getDifferentOptions(type));
     } else {
-      this.getDifferentOptions(this.state.typeOfQuestion)
+      this.getDifferentOptions(this.state.typeOfQuestion);
     }
   }
 
@@ -84,13 +84,13 @@ export class Questions extends Component {
       if (!options.includes(newOption)) {
         options.push(newOption);
       }
-    }
-    this.randomizeAnswers(options)
-    this.setState({optionA: options[0], optionB: options[1], optionC: options[2], optionD: options[3]}, () => this.updateLocalStorage())
+    };
+    this.randomizeAnswers(options);
+    this.setState({optionA: options[0], optionB: options[1], optionC: options[2], optionD: options[3]}, () => this.updateLocalStorage());
   }
 
   updateLocalStorage() {
-    const {currentUser, questionNumber, typeOfQuestion, countries, country, optionA, optionB, optionC, optionD} = this.state
+    const {currentUser, questionNumber, typeOfQuestion, countries, country, optionA, optionB, optionC, optionD} = this.state;
     const currentStatus = {
       currentUser: currentUser,
       questionNumber: questionNumber,
@@ -101,9 +101,9 @@ export class Questions extends Component {
       optionB: optionB,
       optionC: optionC,
       optionD: optionD,
-    }
-    localStorage.currentStatus && localStorageService.remove('currentStatus')
-    localStorageService.set('currentStatus', currentStatus)
+    };
+    localStorage.currentStatus && localStorageService.remove('currentStatus');
+    localStorageService.set('currentStatus', currentStatus);
   }
 
   randomizeAnswers(options) {
@@ -115,55 +115,55 @@ export class Questions extends Component {
 
   removeFromCountries() {
     let {countries} = this.state;
-    const remainingCountries = countries.filter(country => {return country.name !== this.state.country.name})
+    const remainingCountries = countries.filter(country => {return country.name !== this.state.country.name});
     this.setState({countries: remainingCountries});
   }
 
   checkAnswer({target}) {
-    this.setState({disabledButtons: true})
-    this.addSelectedClass(target.id)
+    this.setState({disabledButtons: true});
+    this.addSelectedClass(target.id);
     setTimeout(() => {
       if (this.state.typeOfQuestion === 'code') {
-        target.id === this.state.country.code ? this.openPopup('correct') : this.openPopup()
+        target.id === this.state.country.code ? this.openPopup('correct') : this.openPopup();
       } else {
-        target.id === this.state.country.phone ? this.openPopup('correct') : this.openPopup()
+        target.id === this.state.country.phone ? this.openPopup('correct') : this.openPopup();
       }
-      this.removeSelectedClass(target.id)
-      this.setState({disabledButtons: false})
-    }, 3000)
+      this.removeSelectedClass(target.id);
+      this.setState({disabledButtons: false});
+    }, 3000);
   }
 
   addSelectedClass(id) {
-    document.getElementById(id).classList.add('selected')
+    document.getElementById(id).classList.add('selected');
   }
 
   removeSelectedClass(id) {
-    document.getElementById(id).classList.remove('selected')
+    document.getElementById(id).classList.remove('selected');
   }
 
   openPopup(status) {
     const currentUserScore = {
       user: this.state.currentUser,
       score: (this.state.questionNumber-1)
-    }
-    localStorageService.set ('currentUserScore', currentUserScore)
-    let message = ''
-    let nextStep = ''
-    let score = ''
-    let button = ''
-    let onAccept = null
+    };
+    localStorageService.set ('currentUserScore', currentUserScore);
+    let message = '';
+    let nextStep = '';
+    let score = '';
+    let button = '';
+    let onAccept = null;
     if (status) {
-      message = 'WELL DONE!!!!'
-      button = 'CONTINUE'
-      onAccept = () => this.correctAnswer()
+      message = 'WELL DONE!!!!';
+      button = 'CONTINUE';
+      onAccept = () => this.correctAnswer();
     } else {
-      message = 'GAME OVER!!!!'
-      score = `YOU SCORED: ${this.state.questionNumber-1} POINTS.`
-      nextStep = 'GO TO THE SCORE CARD'
-      button = 'NEXT'
-      onAccept = () => this.incorrectAnswer()
+      message = 'GAME OVER!!!!';
+      score = `YOU SCORED: ${this.state.questionNumber-1} POINTS.`;
+      nextStep = 'GO TO THE SCORE CARD';
+      button = 'NEXT';
+      onAccept = () => this.incorrectAnswer();
     }
-    const img = status ? <SuccessIcon className="popup__img"/> : <FailIcon className="popup__img"/>
+    const img = status ? <SuccessIcon className="popup__img"/> : <FailIcon className="popup__img"/>;
     popupService.open(
       <Fragment>
         <h1>{message}</h1>
@@ -172,33 +172,33 @@ export class Questions extends Component {
         <h3>{nextStep}</h3>
         <button className="popup__button" onClick={onAccept}>{button}</button>
       </Fragment>
-    )
+    );
   }
 
   correctAnswer() {
-    popupService.close()
-    const nextQuestion = (this.state.questionNumber +1)
-    this.setState({questionNumber: nextQuestion})
+    popupService.close();
+    const nextQuestion = (this.state.questionNumber +1);
+    this.setState({questionNumber: nextQuestion});
     this.getRandomCountry();
   }
   
   incorrectAnswer() {
     popupService.close();
     this.updateResults();
-    localStorageService.remove('currentStatus')
+    localStorageService.remove('currentStatus');
     this.goToResults();
   }
 
   updateResults() {
     const scores = localStorageService.get('ranking') || [];
-    localStorage.ranking && localStorageService.remove('ranking')
-    const currentUserScore = localStorageService.get('currentUserScore') 
+    localStorage.ranking && localStorageService.remove('ranking');
+    const currentUserScore = localStorageService.get('currentUserScore');
     scores.push(currentUserScore);
-    localStorageService.set('ranking', scores)
+    localStorageService.set('ranking', scores);
   }
 
   getQuestion() {
-    return this.state.typeOfQuestion === 'code' ? 'What is the international ISO code for ' : 'What is the country code for ' 
+    return this.state.typeOfQuestion === 'code' ? 'What is the international ISO code for ' : 'What is the country code for ';
   }
 
 

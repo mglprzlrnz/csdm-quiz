@@ -11,7 +11,7 @@ export class Results extends Component {
       ranking: '',
       currentUserScore: '',
       topScorers: []
-    }
+    };
   }
 
   componentWillMount() {
@@ -19,14 +19,14 @@ export class Results extends Component {
   }
 
   updateData() {
-    this.sortScores()
-    this.limitToShow()
+    this.sortScores();
+    this.limitToShow();
   }
 
   goToHome() {
-    localStorage.currentUser && localStorageService.remove('currentUser')
-    localStorage.currentUserScore && localStorageService.remove('currentUserScore')
-    this.props.history.push('/')
+    localStorage.currentUser && localStorageService.remove('currentUser');
+    localStorage.currentUserScore && localStorageService.remove('currentUserScore');
+    this.props.history.push('/');
   }
   renderScores() {
     return this.state.topScorers.map((score, index) => {
@@ -36,7 +36,7 @@ export class Results extends Component {
           <div>{`${score.score} POINTS`}</div>
         </div>
       );
-    })
+    });
   }
 
   sortScores() {
@@ -44,12 +44,12 @@ export class Results extends Component {
       if(a.score < b.score) return 1;
       if(a.score > b.score) return -1;
       return 0;
-    })
+    });
   }
 
   limitToShow() {
-    const topScorers = this.state.ranking.slice(0, TOP_RANKING)
-    this.setState({topScorers: topScorers})
+    const topScorers = this.state.ranking.slice(0, TOP_RANKING);
+    this.setState({topScorers: topScorers});
   }
 
   render() {
