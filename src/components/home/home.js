@@ -32,10 +32,10 @@ export class Home extends Component {
   setDataToLocalStorage(query, key) {
     client.query({
       query: query
-    });
+    })
     .then(({data}) => {
       localStorageService.set(key, data.countries)
-    });
+    })
     .catch(error => console.error(error));
   }
 
